@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -88,7 +87,7 @@ public class TableHandler {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("DataSelector.fxml"));
                 try {
-                    AnchorPane node = loader.load();
+                    Parent node = loader.load();
                     GraphDataHandler controller = loader.getController();
                     controller.setData(data);
                     controller.setGraphType(comboBox.getValue());
@@ -116,7 +115,6 @@ public class TableHandler {
         root.getChildren().add(label);
         root.getChildren().add(generate);
         root.getChildren().add(load);
-
         stage.setScene(scene);
         stage.setResizable(false);
     }

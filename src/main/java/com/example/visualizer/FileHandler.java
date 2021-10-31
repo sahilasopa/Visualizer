@@ -89,6 +89,7 @@ public class FileHandler {
         List<String> data = new ArrayList<>();
         String line = sc.nextLine();
         String[] words = line.split(",");
+        System.out.println(Arrays.toString(words));
         while (sc.hasNextLine()) {
             if (words.length <= 1) {
                 words = sc.nextLine().split(",");
