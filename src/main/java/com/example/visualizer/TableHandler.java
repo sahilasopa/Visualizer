@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
@@ -22,7 +23,6 @@ import java.util.Objects;
 
 public class TableHandler {
     ObservableList<String> items = FXCollections.observableArrayList();
-    GraphDataHandler handler = new GraphDataHandler();
 
     public void PlotTable(Event event, HashMap<String, List<String>> data) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -63,13 +63,13 @@ public class TableHandler {
             lists.add(new ArrayList<>(listOfStrings));
             listOfStrings.clear();
         }
+        List<List<String>> eachColumn = new ArrayList<>(lists);
         while (!lists.isEmpty()) {
             for (int n = 0; n < lists.size(); n++) {
                 tableView.getItems().add(lists.get(n));
                 lists.remove(lists.get(n));
             }
         }
-
         tableView.setPrefSize(650, 600);
         tableView.setEditable(true);
 
@@ -85,10 +85,18 @@ public class TableHandler {
             if (comboBox.getValue() == null) {
                 System.out.println("Show Some Error");
             } else {
-                handler.setGraphType(comboBox.getValue());
-                handler.setData(data);
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("DataSelector.fxml"));
                 try {
-                    handler.display(event12);
+                    AnchorPane node = loader.load();
+                    GraphDataHandler controller = loader.getController();
+                    controller.setData(data);
+                    controller.setGraphType(comboBox.getValue());
+                    controller.setEachColumn(eachColumn);
+                    controller.display();
+                    Scene scene1 = new Scene(node);
+                    stage.setScene(scene1);
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
