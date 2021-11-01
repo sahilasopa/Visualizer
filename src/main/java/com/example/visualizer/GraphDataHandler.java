@@ -17,7 +17,6 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -195,10 +194,10 @@ public class GraphDataHandler {
             XYChart.Data<Number, Number> data;
             try {
                 data = new XYChart.Data<>(Double.parseDouble(strings.get(x)), Double.parseDouble(strings.get(y)));
-                data.setNode(new HoveredThresholdNode(getData().get("headers").get(x), Double.parseDouble(strings.get(y))));
+                data.setNode(new HoveredThresholdNode(Double.parseDouble(strings.get(x)), Double.parseDouble(strings.get(y))));
             } catch (NumberFormatException e) {
                 data = new XYChart.Data<>(0, 0);
-                data.setNode(new HoveredThresholdNode(getData().get("headers").get(x), Double.parseDouble(strings.get(y))));
+                data.setNode(new HoveredThresholdNode(0, 0));
             }
 
             dataSeries1.getData().add(data);
@@ -214,8 +213,6 @@ public class GraphDataHandler {
         loader.setLocation(getClass().getResource("lineChart.fxml"));
         try {
             AnchorPane node = loader.load();
-            LineChartHandler controller = loader.getController();
-            controller.setSeries(dataSeries1);
             Stage stage = new Stage();
             Scene graph = new Scene(node);
             node.getChildren().add(lineChart);
@@ -228,10 +225,9 @@ public class GraphDataHandler {
 
     static class HoveredThresholdNode extends AnchorPane {
 
-        public HoveredThresholdNode(String string, Object object) {
-            setPrefSize(15, 15);
+        public HoveredThresholdNode(double x, double y) {
 
-            final Label label = createDataThresholdLabel(string, object);
+            final Label label = createDataThresholdLabel(x, y);
 
             setOnMouseEntered(mouseEvent -> {
                 getChildren().setAll(label);
@@ -241,22 +237,10 @@ public class GraphDataHandler {
             setOnMouseExited(mouseEvent -> getChildren().clear());
         }
 
-        private Label createDataThresholdLabel(String string, Object object) {
-            final Label label = new Label(object + "");
+        private Label createDataThresholdLabel(double x, double y) {
+            final Label label = new Label(String.valueOf(x).concat("," + y));
             label.getStyleClass().addAll("default-color0", "chart-line-symbol", "chart-series-line");
             label.setStyle("-fx-font-size: 20; -fx-font-weight: bold;");
-
-            System.out.println(string);
-            if (string.equals("engine1")) {
-                label.setTextFill(Color.RED);
-                label.setStyle("-fx-border-color: RED;");
-            } else if (string.equals("engine2")) {
-                label.setTextFill(Color.ORANGE);
-                label.setStyle("-fx-border-color: ORANGE;");
-            } else {
-                label.setTextFill(Color.GREEN);
-                label.setStyle("-fx-border-color: GREEN;");
-            }
 
             label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
             return label;
