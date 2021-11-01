@@ -1,40 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-
-<AnchorPane prefHeight="650.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+<?import java.lang.String?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="650.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/17"
             fx:controller="com.example.visualizer.HomeHandler">
-   <Label layoutX="232.0" layoutY="135.0" text="Welcome To FX Visualizer">
-      <font>
-         <Font size="16.0"/>
-      </font>
-   </Label>
-   <Label layoutX="127.0" layoutY="184.0" text="Upload Data In Any Of The Compatible Formats And See The Magic ">
-      <font>
-         <Font name="FreeMono" size="11.0"/>
-      </font>
-   </Label>
-   <Label layoutX="248.0" layoutY="212.0" text="JSON, CSV, XLXS, API URLS"/>
-   <Button fx:id="filePicker" layoutX="219.0" layoutY="299.0" mnemonicParsing="false" onAction="#handleFile"
-           prefHeight="34.0" prefWidth="233.0" text="Upload DATA">
-      <styleClass>
-         <String fx:value="btn"/>
-         <String fx:value="btn-primary"/>
-      </styleClass>
-   </Button>
-   <TextField fx:id="url" layoutX="207.0" layoutY="414.0" prefHeight="34.0" prefWidth="170.0" promptText="JSON URL"/>
-   <Label layoutX="325.0" layoutY="371.0" text="OR"/>
-   <Button fx:id="get" layoutX="381.0" layoutY="414.0" mnemonicParsing="false" onAction="#handleUrl" prefHeight="34.0"
-           prefWidth="56.0" text="GET">
-      <styleClass>
-         <String fx:value="btn"/>
-         <String fx:value="btn-success"/>
-      </styleClass>
-   </Button>
+    <Label layoutX="232.0" layoutY="135.0" text="Welcome To FX Visualizer">
+        <font>
+            <Font size="16.0"/>
+        </font>
+    </Label>
+    <Label layoutX="127.0" layoutY="184.0" text="Upload Data In Any Of The Compatible Formats And See The Magic ">
+        <font>
+            <Font name="FreeMono" size="11.0"/>
+        </font>
+    </Label>
+    <Label layoutX="248.0" layoutY="212.0" text="JSON, CSV, XLXS, API URLS"/>
+    <Button fx:id="filePicker" layoutX="219.0" layoutY="299.0" mnemonicParsing="false" onAction="#handleFile"
+            prefHeight="34.0" prefWidth="233.0" text="Upload DATA">
+        <styleClass>
+            <String fx:value="btn"/>
+            <String fx:value="btn-primary"/>
+        </styleClass>
+    </Button>
+    <TextField fx:id="url" layoutX="207.0" layoutY="414.0" prefHeight="34.0" prefWidth="170.0" promptText="JSON URL"/>
+    <Label layoutX="325.0" layoutY="371.0" text="OR"/>
+    <Button fx:id="get" layoutX="381.0" layoutY="414.0" mnemonicParsing="false" onAction="#handleUrl" prefHeight="34.0"
+            prefWidth="56.0" text="GET">
+        <styleClass>
+            <String fx:value="btn"/>
+            <String fx:value="btn-success"/>
+        </styleClass>
+    </Button>
 </AnchorPane>

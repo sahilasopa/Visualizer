@@ -45,9 +45,7 @@ public class FileHandler {
             }
             switch (extension) {
                 case "json" -> jsonHandler("");
-                case "xlsx" -> {
-                    excelHandler();
-                }
+                case "xlsx" -> excelHandler();
                 case "csv" -> handler.PlotTable(event, csvHandler());
             }
         }
@@ -108,7 +106,7 @@ public class FileHandler {
             File file = new File(getFile().getPath());
             XSSFWorkbook wb = new XSSFWorkbook(file);
             File output = new File(wb.getSheetAt(0).getSheetName());
-            XlsxtoCSV csvConverter = new XlsxtoCSV();
+            XlsxToCSV csvConverter = new XlsxToCSV();
             String path = csvConverter.xlsx(getFile(), output);
             setFile(new File(path));
             handler.PlotTable(event, csvHandler());

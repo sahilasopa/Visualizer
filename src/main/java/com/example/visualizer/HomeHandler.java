@@ -20,7 +20,7 @@ public class HomeHandler {
     @FXML
     private TextField url;
 
-    public void handleUrl() throws IOException, InterruptedException    {
+    public void handleUrl() throws IOException, InterruptedException {
         boolean isValid = true;
         final String URL = url.getText().trim();
         try {
