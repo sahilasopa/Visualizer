@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import java.util.Objects;
 
 public class GraphDataHandler {
     @FXML
-    Button generate;
+    private Button generate;
 
     @FXML
     private Label title;
@@ -49,6 +50,9 @@ public class GraphDataHandler {
 
     @FXML
     private ImageView image;
+
+    @FXML
+    private Button load;
 
     private String graphType;
 
@@ -105,7 +109,6 @@ public class GraphDataHandler {
             }
         });
         generate.setOnAction(event -> {
-
             if (values.getValue() == null) {
                 System.out.println("Show Error");
             } else if (num.getValue() == null) {
@@ -123,6 +126,21 @@ public class GraphDataHandler {
                     lineGraph(headers.indexOf(values.getValue()), headers.indexOf(num.getValue()));
                 }
             }
+        });
+        load.setOnAction(event -> {
+            System.out.println("Called");
+            AnchorPane home = null;
+            try {
+                home = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            assert home != null;
+            Scene scene1 = new Scene(home);
+            scene1.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+            Stage stage = new Stage();
+            stage.setScene(scene1);
+            stage.show();
         });
     }
 

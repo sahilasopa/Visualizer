@@ -17,7 +17,6 @@
     <ComboBox fx:id="num" layoutX="235.0" layoutY="244.0" prefWidth="150.0"/>
     <Button fx:id="generate" layoutX="272.0" layoutY="293.0" mnemonicParsing="false" text="Generate"/>
     <ComboBox fx:id="type" layoutX="237.0" layoutY="110.0" prefWidth="150.0"/>
-    <Label fx:id="title1" layoutX="247.0" layoutY="84.0" text="Change Graph Type"/>
+    <Label layoutX="247.0" layoutY="84.0" text="Change Graph Type"/>
     <Button fx:id="load" layoutX="255.0" layoutY="607.0" mnemonicParsing="false" text="Load Another Data"/>
-    <!--    <PieChart fx:id="pie" layoutX="104.0" layoutY="348.0" prefHeight="282.0" prefWidth="443.0" visible="false" />-->
 </AnchorPane>
