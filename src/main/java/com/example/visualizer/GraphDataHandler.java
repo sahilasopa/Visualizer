@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
@@ -15,6 +16,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -117,7 +120,8 @@ public class GraphDataHandler {
                     } catch (NumberFormatException | IOException e) {
                         System.out.println("Number Values Only");
                     }
-                } else if (getGraphType().equals("LINE CHART")) {
+                } else if (getGraphType().equals("LINE GRAPH")) {
+                    lineGraph(headers.indexOf(values.getValue()), headers.indexOf(num.getValue()));
                 }
             }
         });
@@ -154,13 +158,13 @@ public class GraphDataHandler {
                     pieChartData.add(new PieChart.Data(strings.get(col1).trim(), Double.parseDouble(strings.get(col2))));
                     keysAdded.add(strings.get(col1));
                 } catch (NumberFormatException e) {
-                    throw new NumberFormatException("Pl/ease Select Numeric Data For Keys");
+                    throw new NumberFormatException("Please Select Numeric Data For Keys");
                 }
 
             }
         }
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("chart.fxml"));
+        loader.setLocation(getClass().getResource("pieChart.fxml"));
         try {
             Parent node = loader.load();
             PieChartHandler controller = loader.getController();
@@ -175,33 +179,87 @@ public class GraphDataHandler {
         }
     }
 
-    public void lineGraph(List<List<String>> list) {
-        final NumberAxis xAxis = new NumberAxis();
-        final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("Number of Month");
-        //creating the chart
-        final LineChart<Number, Number> lineChart =
-                new LineChart<Number, Number>(xAxis, yAxis);
+    public void lineGraph(int x, int y) {
+        NumberAxis xAxis = new NumberAxis();
 
-        lineChart.setTitle("Stock Monitoring, 2010");
-        //defining a series
-        XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        series.setName("My portfolio");
-        //populating the series with data
-        series.getData().add(new XYChart.Data<>(1, 23));
-        series.getData().add(new XYChart.Data<>(2, 14));
-        series.getData().add(new XYChart.Data<>(3, 15));
-        series.getData().add(new XYChart.Data<>(4, 24));
-        series.getData().add(new XYChart.Data<>(5, 34));
-        series.getData().add(new XYChart.Data<>(6, 36));
-        series.getData().add(new XYChart.Data<>(7, 22));
-        series.getData().add(new XYChart.Data<>(8, 45));
-        series.getData().add(new XYChart.Data<>(9, 43));
-        series.getData().add(new XYChart.Data<>(10, 17));
-        series.getData().add(new XYChart.Data<>(11, 29));
-        series.getData().add(new XYChart.Data<>(12, 25));
+        NumberAxis yAxis = new NumberAxis();
 
-        lineChart.getData().add(series);
+        LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+
+        XYChart.Series<Number, Number> dataSeries1 = new XYChart.Series<>();
+
+        xAxis.setLabel(getData().get("headers").get(x));
+        yAxis.setLabel(getData().get("headers").get(y));
+        lineChart.setTitle("Line Chart");
+        for (List<String> strings : new ArrayList<>(getEachColumn())) {
+            XYChart.Data<Number, Number> data;
+            try {
+                data = new XYChart.Data<>(Double.parseDouble(strings.get(x)), Double.parseDouble(strings.get(y)));
+                data.setNode(new HoveredThresholdNode(getData().get("headers").get(x), Double.parseDouble(strings.get(y))));
+            } catch (NumberFormatException e) {
+                data = new XYChart.Data<>(0, 0);
+                data.setNode(new HoveredThresholdNode(getData().get("headers").get(x), Double.parseDouble(strings.get(y))));
+            }
+
+            dataSeries1.getData().add(data);
+        }
+
+        System.out.println(dataSeries1.getData().sorted());
+        lineChart.getData().add(dataSeries1);
+        AnchorPane.setBottomAnchor(lineChart, 0.0);
+        AnchorPane.setTopAnchor(lineChart, 0.0);
+        AnchorPane.setLeftAnchor(lineChart, 0.0);
+        AnchorPane.setRightAnchor(lineChart, 0.0);
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("lineChart.fxml"));
+        try {
+            AnchorPane node = loader.load();
+            LineChartHandler controller = loader.getController();
+            controller.setSeries(dataSeries1);
+            Stage stage = new Stage();
+            Scene graph = new Scene(node);
+            node.getChildren().add(lineChart);
+            stage.setScene(graph);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    static class HoveredThresholdNode extends AnchorPane {
+
+        public HoveredThresholdNode(String string, Object object) {
+            setPrefSize(15, 15);
+
+            final Label label = createDataThresholdLabel(string, object);
+
+            setOnMouseEntered(mouseEvent -> {
+                getChildren().setAll(label);
+                setCursor(Cursor.NONE);
+                toFront();
+            });
+            setOnMouseExited(mouseEvent -> getChildren().clear());
+        }
+
+        private Label createDataThresholdLabel(String string, Object object) {
+            final Label label = new Label(object + "");
+            label.getStyleClass().addAll("default-color0", "chart-line-symbol", "chart-series-line");
+            label.setStyle("-fx-font-size: 20; -fx-font-weight: bold;");
+
+            System.out.println(string);
+            if (string.equals("engine1")) {
+                label.setTextFill(Color.RED);
+                label.setStyle("-fx-border-color: RED;");
+            } else if (string.equals("engine2")) {
+                label.setTextFill(Color.ORANGE);
+                label.setStyle("-fx-border-color: ORANGE;");
+            } else {
+                label.setTextFill(Color.GREEN);
+                label.setStyle("-fx-border-color: GREEN;");
+            }
+
+            label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
+            return label;
+        }
     }
 }
-

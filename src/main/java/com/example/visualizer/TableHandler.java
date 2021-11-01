@@ -85,7 +85,7 @@ public class TableHandler {
                 System.out.println("Show Some Error");
             } else {
                 FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("DataSelector.fxml"));
+                loader.setLocation(getClass().getResource("dataSelector.fxml"));
                 try {
                     Parent node = loader.load();
                     GraphDataHandler controller = loader.getController();
