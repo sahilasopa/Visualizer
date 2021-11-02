@@ -237,28 +237,4 @@ public class GraphDataHandler {
             e.printStackTrace();
         }
     }
-
-    static class HoveredThresholdNode extends AnchorPane {
-
-        public HoveredThresholdNode(double x, double y) {
-
-            final Label label = createDataThresholdLabel(x, y);
-
-            setOnMouseEntered(mouseEvent -> {
-                getChildren().setAll(label);
-                setCursor(Cursor.NONE);
-                toFront();
-            });
-            setOnMouseExited(mouseEvent -> getChildren().clear());
-        }
-
-        private Label createDataThresholdLabel(double x, double y) {
-            final Label label = new Label(String.valueOf(x).concat("," + y));
-            label.getStyleClass().addAll("default-color0", "chart-line-symbol", "chart-series-line");
-            label.setStyle("-fx-font-size: 20; -fx-font-weight: bold;");
-
-            label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
-            return label;
-        }
-    }
 }
