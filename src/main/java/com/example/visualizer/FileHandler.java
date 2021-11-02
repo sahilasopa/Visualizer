@@ -61,7 +61,7 @@ public class FileHandler {
             Iterator<String> keys = object.keys();
             while (keys.hasNext()) {
                 String key = keys.next();
-                System.out.println(key);
+                System.out.println(object.getJSONObject(key).keySet());
             }
 
         } catch (JSONException e) {

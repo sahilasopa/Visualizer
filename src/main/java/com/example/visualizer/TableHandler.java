@@ -37,7 +37,7 @@ public class TableHandler {
 
         List<String> headers = data.get("headers");
         List<String> main = data.get("data");
-        List<String> graphs = List.of("PIE CHART", "LINE GRAPH", "BAR CHART");
+        List<String> graphs = List.of("PIE CHART", "LINE GRAPH");
         items.addAll(graphs);
         comboBox.setItems(items);
 

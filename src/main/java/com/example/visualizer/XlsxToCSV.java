@@ -38,6 +38,13 @@ public class XlsxToCSV {
                             case NUMERIC -> data.append(c.getNumericCellValue()).append(",");
                             case STRING -> data.append(c.getStringCellValue()).append(",");
                             case BLANK -> data.append("0" + ",");
+                            case FORMULA -> {
+                                try {
+                                    data.append(c.getStringCellValue()).append(",");
+                                } catch (IllegalStateException e) {
+                                    data.append(c.getNumericCellValue()).append(",");
+                                }
+                            }
                             default -> data.append(c).append(",");
                         }
                     }

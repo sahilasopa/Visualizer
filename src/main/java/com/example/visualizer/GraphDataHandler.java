@@ -85,7 +85,7 @@ public class GraphDataHandler {
 
     public void display() throws IOException {
         ObservableList<String> items = FXCollections.observableArrayList();
-        List<String> graphs = List.of("PIE CHART", "LINE GRAPH", "BAR CHART");
+        List<String> graphs = List.of("PIE CHART", "LINE GRAPH");
         items.addAll(graphs);
         type.setItems(items);
         type.getSelectionModel().select(items.indexOf(getGraphType()));
@@ -128,7 +128,6 @@ public class GraphDataHandler {
             }
         });
         load.setOnAction(event -> {
-            System.out.println("Called");
             AnchorPane home = null;
             try {
                 home = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
@@ -148,7 +147,6 @@ public class GraphDataHandler {
         switch (graphType) {
             case "PIE CHART" -> image.setImage(new Image(Objects.requireNonNull(getClass().getResource("images/pie.png")).toExternalForm()));
             case "LINE GRAPH" -> image.setImage(new Image(Objects.requireNonNull(getClass().getResource("images/line.png")).toExternalForm()));
-            case "BAR CHART" -> image.setImage(new Image(Objects.requireNonNull(getClass().getResource("images/bar.png")).toExternalForm()));
         }
     }
 
@@ -221,7 +219,6 @@ public class GraphDataHandler {
             dataSeries1.getData().add(data);
         }
 
-        System.out.println(dataSeries1.getData().sorted());
         lineChart.getData().add(dataSeries1);
         AnchorPane.setBottomAnchor(lineChart, 0.0);
         AnchorPane.setTopAnchor(lineChart, 0.0);
