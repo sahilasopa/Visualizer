@@ -51,35 +51,28 @@ public class FileHandler {
         }
     }
 
-    private void jsonHandler(String data) throws IOException {
+    private HashMap<String, List<String>> jsonHandler(String data) throws IOException {
+        JsonToCsv jsonToCsv = new JsonToCsv();
+        HashMap<String, List<String>> map = new HashMap<>();
         if (data.isEmpty()) {
             data = new String(Files.readAllBytes(file.toPath()));
         }
         try {
             JSONObject object = new JSONObject(data);
-            System.out.println(object);
-            Iterator<String> keys = object.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                System.out.println(object.getJSONObject(key).keySet());
-            }
-
+            jsonToCsv.setJsonObject(object);
+            String csv = jsonToCsv.jsonToCsv();
+            System.out.println(csv);
         } catch (JSONException e) {
             // the file is not json object so try Json Array
+            e.printStackTrace();
             try {
                 JSONArray array = new JSONArray(data);
-                JSONObject object = (JSONObject) array.get(0);
-                Iterator<String> innerKeys = object.keys();
-                while (innerKeys.hasNext()) {
-                    String innerKey = innerKeys.next();
-                    System.out.println(innerKey);
-                }
-                System.out.println(array);
             } catch (JSONException e1) {
                 // the file is not json array too
                 System.out.println("The Json File Is Invalid");
             }
         }
+        return map;
     }
 
     private HashMap<String, List<String>> csvHandler() throws IOException {
@@ -87,7 +80,6 @@ public class FileHandler {
         List<String> data = new ArrayList<>();
         String line = sc.nextLine();
         String[] words = line.split(",");
-        System.out.println(Arrays.toString(words));
         while (sc.hasNextLine()) {
             if (words.length <= 1) {
                 words = sc.nextLine().split(",");
