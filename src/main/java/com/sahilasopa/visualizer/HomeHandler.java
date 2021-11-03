@@ -20,7 +20,7 @@ public class HomeHandler {
     @FXML
     private TextField url;
 
-    public void handleUrl() throws IOException, InterruptedException {
+    public void handleUrl(Event event) throws IOException, InterruptedException {
         boolean isValid = true;
         final String URL = url.getText().trim();
         try {
@@ -37,7 +37,7 @@ public class HomeHandler {
             }
             alert.showAndWait();
         } else {
-            FileHandler handler = new FileHandler();
+            FileHandler handler = new FileHandler(event);
             handler.apiHandler(URL);
         }
     }

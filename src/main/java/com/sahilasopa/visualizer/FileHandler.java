@@ -47,8 +47,9 @@ public class FileHandler {
                 extension = getFile().getName().substring(i + 1);
             }
             switch (extension) {
-                case "json", "csv" -> handler.PlotTable(event, csvHandler());
+                case "json" -> jsonHandler("");
                 case "xlsx" -> excelHandler();
+                case "csv" -> csvHandler();
             }
         }
     }
@@ -57,17 +58,21 @@ public class FileHandler {
         JsonToCsv jsonToCsv = new JsonToCsv();
         if (data.isEmpty()) {
             data = new String(Files.readAllBytes(file.toPath()));
+        } else {
+            alert.setContentText("The API did not respond with valid JSON data");
         }
         try {
-            JSONObject object = new JSONObject(data);
+            JSONObject object = new JSONObject(data.trim());
             jsonToCsv.setJsonObject(object);
             setFile(new File(jsonToCsv.jsonObjectToCsv()));
+            handler.PlotTable(event, csvHandler());
         } catch (JSONException e) {
             // the file is not json object so try Json Array
             try {
                 JSONArray jsonArray = new JSONArray(data);
                 jsonToCsv.setJsonArray(jsonArray);
                 setFile(new File(jsonToCsv.jsonArrayToCsv()));
+                handler.PlotTable(event, csvHandler());
             } catch (JSONException e1) {
                 // the file is not json array too
                 e.printStackTrace();
