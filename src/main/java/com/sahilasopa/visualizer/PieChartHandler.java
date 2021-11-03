@@ -11,10 +11,11 @@ public class PieChartHandler {
 
     public void setPieChartData(ObservableList<PieChart.Data> pieChartData) {
         pie.setData(pieChartData);
-        pie.getData().forEach(data -> {
-            String percentage = String.format("% 2f%%", data.getPieValue() / 100);
-            Tooltip tooltip = new Tooltip(percentage);
-            Tooltip.install(data.getNode(), tooltip);
+        pie.getData().forEach(d -> {
+            Tooltip tip = new Tooltip();
+            tip.setText(d.getPieValue() + "");
+            Tooltip.install(d.getNode(), tip);
+            System.out.println("LOL");
         });
     }
 }
