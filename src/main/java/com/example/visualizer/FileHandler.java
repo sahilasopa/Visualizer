@@ -60,15 +60,17 @@ public class FileHandler {
         try {
             JSONObject object = new JSONObject(data);
             jsonToCsv.setJsonObject(object);
-            String csv = jsonToCsv.jsonToCsv();
+            String csv = jsonToCsv.jsonObjectToCsv();
             System.out.println(csv);
         } catch (JSONException e) {
             // the file is not json object so try Json Array
-            e.printStackTrace();
             try {
-                JSONArray array = new JSONArray(data);
+                JSONArray jsonArray = new JSONArray(data);
+                jsonToCsv.setJsonArray(jsonArray);
+                jsonToCsv.jsonArrayToCsv();
             } catch (JSONException e1) {
                 // the file is not json array too
+                e.printStackTrace();
                 System.out.println("The Json File Is Invalid");
             }
         }

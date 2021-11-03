@@ -1,5 +1,6 @@
 package com.example.visualizer;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -11,6 +12,15 @@ import java.util.List;
 
 public class JsonToCsv {
     private JSONObject jsonObject;
+    private JSONArray jsonArray;
+
+    public JSONArray getJsonArray() {
+        return jsonArray;
+    }
+
+    public void setJsonArray(JSONArray jsonArray) {
+        this.jsonArray = jsonArray;
+    }
 
     public JSONObject getJsonObject() {
         return jsonObject;
@@ -20,7 +30,7 @@ public class JsonToCsv {
         this.jsonObject = jsonObject;
     }
 
-    public String jsonToCsv() throws IOException {
+    public String jsonObjectToCsv() throws IOException {
         File output = new File("output.csv");
         FileWriter writer = new FileWriter(output);
         List<String> keys = new ArrayList<>();
@@ -49,5 +59,31 @@ public class JsonToCsv {
         }
         writer.write(csv);
         return csv;
+    }
+
+    public String jsonArrayToCsv() throws IOException {
+        File output = new File("output.csv");
+        FileWriter writer = new FileWriter(output);
+        JSONArray jsonArray = getJsonArray();
+        StringBuilder builder = new StringBuilder();
+        List<String> keys = new ArrayList<>();
+        for (Iterator<String> it = jsonArray.getJSONObject(0).keys(); it.hasNext(); ) {
+            keys.add(it.next());
+        }
+        for (String key : keys) {
+            builder.append(key.concat(", "));
+        }
+        builder.append("\n");
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject object = jsonArray.getJSONObject(i);
+            for (String key : keys) {
+                String var = String.valueOf(object.get(key));
+                builder.append(var.concat(", "));
+            }
+            builder.append("\n");
+        }
+        writer.write(builder.toString());
+        writer.close();
+        return builder.toString();
     }
 }
