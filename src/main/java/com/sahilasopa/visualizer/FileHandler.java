@@ -27,9 +27,6 @@ public class FileHandler {
         this.event = event;
     }
 
-    FileHandler() {
-    }
-
     public File getFile() {
         return file;
     }
