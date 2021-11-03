@@ -6,7 +6,7 @@
 <?import javafx.scene.text.Font?>
 <?import java.lang.String?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="650.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/17"
-            fx:controller="com.example.visualizer.HomeHandler">
+            fx:controller="com.sahilasopa.visualizer.HomeHandler">
     <Label layoutX="232.0" layoutY="135.0" text="Welcome To FX Visualizer">
         <font>
             <Font size="16.0"/>

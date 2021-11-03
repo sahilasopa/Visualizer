@@ -10,6 +10,6 @@ module com.example.visualizer {
     requires commons.csv;
     requires commons.io;
 
-    opens com.example.visualizer to javafx.fxml;
-    exports com.example.visualizer;
+    opens com.sahilasopa.visualizer to javafx.fxml;
+    exports com.sahilasopa.visualizer;
 }

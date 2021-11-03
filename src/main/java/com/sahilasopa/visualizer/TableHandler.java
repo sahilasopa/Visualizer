@@ -1,4 +1,4 @@
-package com.example.visualizer;
+package com.sahilasopa.visualizer;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;

@@ -1,4 +1,4 @@
-package com.example.visualizer;
+package com.sahilasopa.visualizer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -5,7 +5,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="650.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/17"
-            fx:controller="com.example.visualizer.GraphDataHandler">
+            fx:controller="com.sahilasopa.visualizer.GraphDataHandler">
     <ImageView fx:id="image" fitHeight="320.0" fitWidth="282.0" layoutX="184.0" layoutY="325.0" pickOnBounds="true"
                preserveRatio="true">
         <Image url="@images/bar.png"/>

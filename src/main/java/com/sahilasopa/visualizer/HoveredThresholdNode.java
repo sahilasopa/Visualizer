@@ -1,4 +1,4 @@
-package com.example.visualizer;
+package com.sahilasopa.visualizer;
 
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;

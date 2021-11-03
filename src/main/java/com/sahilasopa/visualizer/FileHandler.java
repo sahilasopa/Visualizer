@@ -1,4 +1,4 @@
-package com.example.visualizer;
+package com.sahilasopa.visualizer;
 
 import javafx.event.Event;
 import javafx.scene.control.Alert;

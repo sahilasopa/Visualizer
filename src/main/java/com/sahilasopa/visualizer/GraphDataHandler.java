@@ -1,4 +1,4 @@
-package com.example.visualizer;
+package com.sahilasopa.visualizer;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
