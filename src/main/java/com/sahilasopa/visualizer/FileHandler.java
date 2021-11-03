@@ -21,7 +21,7 @@ public class FileHandler {
     private final Alert alert = new Alert(Alert.AlertType.WARNING, "Json File Is Invalid Or Poorly Formatted", ButtonType.OK);
     TableHandler handler = new TableHandler();
     private File file;
-    private Event event;
+    private final Event event;
 
     FileHandler(Event event) {
         this.event = event;
