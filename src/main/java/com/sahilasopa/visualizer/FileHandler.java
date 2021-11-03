@@ -49,7 +49,7 @@ public class FileHandler {
             switch (extension) {
                 case "json" -> jsonHandler("");
                 case "xlsx" -> excelHandler();
-                case "csv" -> csvHandler();
+                case "csv" -> handler.PlotTable(event, csvHandler());
             }
         }
     }

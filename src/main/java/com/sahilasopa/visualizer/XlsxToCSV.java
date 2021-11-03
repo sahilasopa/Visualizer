@@ -51,6 +51,7 @@ public class XlsxToCSV {
                 }
                 data.append('\n');
             }
+            System.out.println(data);
             fos.write(data.toString().getBytes());
             fos.close();
             return outputFile.getPath();
