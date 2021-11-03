@@ -72,6 +72,7 @@ public class GraphDataHandler {
     }
 
     public void display() throws IOException {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
         ObservableList<String> items = FXCollections.observableArrayList();
         List<String> graphs = List.of("PIE CHART", "LINE GRAPH");
         items.addAll(graphs);
@@ -87,17 +88,21 @@ public class GraphDataHandler {
         type.setOnAction(event -> validateGraphType());
         generate.setOnAction(event -> {
             if (values.getValue() == null) {
-                System.out.println("Show Error");
+                alert.setContentText("Please Select Some Value From Dropdown");
+                alert.show();
             } else if (num.getValue() == null) {
-                System.out.println("Show Error");
+                alert.setContentText("Please Select Some Value From Dropdown");
+                alert.show();
             } else if (Objects.equals(num.getValue(), values.getValue())) {
-                System.out.println("show error");
+                alert.setContentText("Please Select Different Values From The Dropdown");
+                alert.show();
             } else {
                 if (getGraphType().equals("PIE CHART")) {
                     try {
                         pieChart(new ArrayList<>(getEachColumn()), headers.indexOf(values.getValue()), headers.indexOf(num.getValue()));
                     } catch (NumberFormatException | IOException e) {
-                        System.out.println("Number Values Only");
+                        alert.setContentText("Please Select Numeric Values For Data");
+                        alert.show();
                     }
                 } else if (getGraphType().equals("LINE GRAPH")) {
                     lineGraph(headers.indexOf(values.getValue()), headers.indexOf(num.getValue()));

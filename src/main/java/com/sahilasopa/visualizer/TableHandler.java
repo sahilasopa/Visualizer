@@ -82,7 +82,8 @@ public class TableHandler {
         generate.setLayoutY(605);
         generate.setOnAction(event12 -> {
             if (comboBox.getValue() == null) {
-                System.out.println("Show Some Error");
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Please Select A Type Of Graph To PLOT");
             } else {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("dataSelector.fxml"));

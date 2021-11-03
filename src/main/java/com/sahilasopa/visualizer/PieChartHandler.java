@@ -15,7 +15,6 @@ public class PieChartHandler {
             Tooltip tip = new Tooltip();
             tip.setText(d.getPieValue() + "");
             Tooltip.install(d.getNode(), tip);
-            System.out.println("LOL");
         });
     }
 }
