@@ -1,6 +1,8 @@
 package com.example.visualizer;
 
 import javafx.event.Event;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,6 +18,7 @@ import java.nio.file.Files;
 import java.util.*;
 
 public class FileHandler {
+    private final Alert alert = new Alert(Alert.AlertType.WARNING, "Json File Is Invalid Or Poorly Formatted", ButtonType.OK);
     TableHandler handler = new TableHandler();
     private File file;
     private Event event;
@@ -44,37 +47,33 @@ public class FileHandler {
                 extension = getFile().getName().substring(i + 1);
             }
             switch (extension) {
-                case "json" -> jsonHandler("");
+                case "json", "csv" -> handler.PlotTable(event, csvHandler());
                 case "xlsx" -> excelHandler();
-                case "csv" -> handler.PlotTable(event, csvHandler());
             }
         }
     }
 
-    private HashMap<String, List<String>> jsonHandler(String data) throws IOException {
+    private void jsonHandler(String data) throws IOException {
         JsonToCsv jsonToCsv = new JsonToCsv();
-        HashMap<String, List<String>> map = new HashMap<>();
         if (data.isEmpty()) {
             data = new String(Files.readAllBytes(file.toPath()));
         }
         try {
             JSONObject object = new JSONObject(data);
             jsonToCsv.setJsonObject(object);
-            String csv = jsonToCsv.jsonObjectToCsv();
-            System.out.println(csv);
+            setFile(new File(jsonToCsv.jsonObjectToCsv()));
         } catch (JSONException e) {
             // the file is not json object so try Json Array
             try {
                 JSONArray jsonArray = new JSONArray(data);
                 jsonToCsv.setJsonArray(jsonArray);
-                jsonToCsv.jsonArrayToCsv();
+                setFile(new File(jsonToCsv.jsonArrayToCsv()));
             } catch (JSONException e1) {
                 // the file is not json array too
                 e.printStackTrace();
-                System.out.println("The Json File Is Invalid");
+                alert.show();
             }
         }
-        return map;
     }
 
     private HashMap<String, List<String>> csvHandler() throws IOException {
@@ -105,6 +104,8 @@ public class FileHandler {
             setFile(new File(path));
             handler.PlotTable(event, csvHandler());
         } catch (Exception e) {
+            alert.setContentText("The Excel File Is Invalid");
+            alert.show();
             e.printStackTrace();
         }
     }

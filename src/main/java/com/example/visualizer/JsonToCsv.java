@@ -58,7 +58,7 @@ public class JsonToCsv {
             csv = csv.concat("\n");
         }
         writer.write(csv);
-        return csv;
+        return output.getPath();
     }
 
     public String jsonArrayToCsv() throws IOException {
@@ -84,6 +84,6 @@ public class JsonToCsv {
         }
         writer.write(builder.toString());
         writer.close();
-        return builder.toString();
+        return output.getPath();
     }
 }

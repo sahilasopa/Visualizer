@@ -4,16 +4,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -27,35 +24,26 @@ import java.util.Map;
 import java.util.Objects;
 
 public class GraphDataHandler {
+    private final Alert alert = new Alert(Alert.AlertType.WARNING, "Please Select Valid Values For Keys", ButtonType.OK);
     @FXML
     private Button generate;
-
     @FXML
     private Label title;
-
     @FXML
     private Label labelText;
-
     @FXML
     private Label valueText;
-
     @FXML
     private ComboBox<String> type;
-
     @FXML
     private ComboBox<String> values;
-
     @FXML
     private ComboBox<String> num;
-
     @FXML
     private ImageView image;
-
     @FXML
     private Button load;
-
     private String graphType;
-
     private List<List<String>> eachColumn;
     private Map<String, List<String>> data;
 
@@ -91,23 +79,12 @@ public class GraphDataHandler {
         type.getSelectionModel().select(items.indexOf(getGraphType()));
         ObservableList<String> labels = FXCollections.observableArrayList();
         List<String> headers = data.get("headers");
-        setPreviewImage();
+        validateGraphType();
         title.setText("You Have Chosen " + getGraphType());
         labels.addAll(getData().get("headers"));
         values.setItems(labels);
         num.setItems(labels);
-        type.setOnAction(event -> {
-            setGraphType(type.getValue());
-            title.setText("You Have Chosen " + getGraphType());
-            setPreviewImage();
-            if (getGraphType().equals("LINE GRAPH")) {
-                labelText.setText("X-Axis");
-                valueText.setText("Y-Axis");
-            } else if (getGraphType().equals("PIE CHART")) {
-                labelText.setText("Label Values");
-                valueText.setText("Numeric Values");
-            }
-        });
+        type.setOnAction(event -> validateGraphType());
         generate.setOnAction(event -> {
             if (values.getValue() == null) {
                 System.out.println("Show Error");
@@ -143,6 +120,19 @@ public class GraphDataHandler {
         });
     }
 
+    private void validateGraphType() {
+        setGraphType(type.getValue());
+        title.setText("You Have Chosen " + getGraphType());
+        setPreviewImage();
+        if (getGraphType().equals("LINE GRAPH")) {
+            labelText.setText("X-Axis");
+            valueText.setText("Y-Axis");
+        } else if (getGraphType().equals("PIE CHART")) {
+            labelText.setText("Label Values");
+            valueText.setText("Numeric Values");
+        }
+    }
+
     private void setPreviewImage() {
         switch (graphType) {
             case "PIE CHART" -> image.setImage(new Image(Objects.requireNonNull(getClass().getResource("images/pie.png")).toExternalForm()));
@@ -166,14 +156,14 @@ public class GraphDataHandler {
                         data.setPieValue(value);
                     }
                 } catch (NumberFormatException e) {
-                    throw new NumberFormatException("Please Select Numeric Data For Keys");
+                    alert.show();
                 }
             } else {
                 try {
                     pieChartData.add(new PieChart.Data(strings.get(col1).trim(), Double.parseDouble(strings.get(col2))));
                     keysAdded.add(strings.get(col1));
                 } catch (NumberFormatException e) {
-                    throw new NumberFormatException("Please Select Numeric Data For Keys");
+                    alert.show();
                 }
 
             }
