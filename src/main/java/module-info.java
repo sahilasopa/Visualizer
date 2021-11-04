@@ -1,4 +1,4 @@
-module com.example.visualizer {
+module com.sahilasopa.visualizer {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.apache.commons.compress;
@@ -8,7 +8,7 @@ module com.example.visualizer {
     requires org.apache.poi.ooxml;
     requires java.net.http;
     requires commons.csv;
-    requires commons.io;
+    requires org.apache.commons.io;
 
     opens com.sahilasopa.visualizer to javafx.fxml;
     exports com.sahilasopa.visualizer;

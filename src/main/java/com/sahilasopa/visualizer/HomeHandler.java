@@ -44,7 +44,10 @@ public class HomeHandler {
 
     public void handleFile(Event event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        String userDirectoryString = System.getProperty("user.home");
+        File userDirectory = new File(userDirectoryString);
         FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(userDirectory);
         fileChooser.setTitle("Pick Data Source");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Data Formats", "*.csv", "*.json", "*.xlsx"));
         File file = fileChooser.showOpenDialog(stage);
