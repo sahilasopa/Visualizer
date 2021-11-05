@@ -71,7 +71,13 @@ public class TableHandler {
         }
         tableView.setPrefSize(650, 600);
         tableView.setEditable(true);
-
+        tableView.getItems().stream()
+                .filter(item -> Objects.equals(item.get(0), "SSD88"))
+                .findAny()
+                .ifPresent(item -> {
+                    tableView.getSelectionModel().select(item);
+                    tableView.scrollTo(item);
+                });
         comboBox.setLayoutX(100);
         comboBox.setLayoutY(605);
 
@@ -109,6 +115,7 @@ public class TableHandler {
             Scene scene1 = new Scene(home);
             scene1.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
             stage1.setScene(scene1);
+            stage1.show();
         });
 
         root.getChildren().add(comboBox);
