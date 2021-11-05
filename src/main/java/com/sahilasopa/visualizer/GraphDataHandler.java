@@ -123,6 +123,7 @@ public class GraphDataHandler {
             Scene scene1 = new Scene(home);
             scene1.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
             Stage stage = new Stage();
+            stage.setResizable(false);
             stage.setScene(scene1);
             stage.show();
         });

@@ -20,6 +20,7 @@ public class VisualizerApplication extends Application {
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
         stage.setTitle("Data Visualizer!");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 }

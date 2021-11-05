@@ -29,6 +29,7 @@ public class TableHandler {
         root.setPrefSize(650, 650);
         Scene scene = new Scene(root);
         Parent home = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
+        stage.setResizable(false);
         ComboBox<String> comboBox = new ComboBox<>(); // Dropdown
         TableView<List<String>> tableView = new TableView<>(); // Table
         Label label = new Label("Graph/Chat: ");
