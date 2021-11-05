@@ -96,7 +96,6 @@ public class TableHandler {
                     controller.display();
                     Scene scene1 = new Scene(node);
                     stage.setScene(scene1);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

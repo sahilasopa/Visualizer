@@ -238,7 +238,6 @@ public class GraphDataHandler {
     }
 
     public void barChart(List<List<String>> list, int col1, int col2) {
-        System.out.println(list);
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
         final BarChart<String, Number> barChart =
