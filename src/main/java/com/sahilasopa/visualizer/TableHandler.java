@@ -37,7 +37,7 @@ public class TableHandler {
 
         List<String> headers = data.get("headers");
         List<String> main = data.get("data");
-        List<String> graphs = List.of("PIE CHART", "LINE GRAPH");
+        List<String> graphs = List.of("PIE CHART", "LINE GRAPH", "BAR CHART");
         items.addAll(graphs);
         comboBox.setItems(items);
 
@@ -106,9 +106,10 @@ public class TableHandler {
         load.setLayoutX(570);
         load.setLayoutY(605);
         load.setOnAction(event1 -> {
+            Stage stage1 = new Stage();
             Scene scene1 = new Scene(home);
             scene1.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
-            stage.setScene(scene1);
+            stage1.setScene(scene1);
         });
 
         root.getChildren().add(comboBox);

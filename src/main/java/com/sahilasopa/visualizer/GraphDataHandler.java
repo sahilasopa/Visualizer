@@ -6,10 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.PieChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -74,7 +71,7 @@ public class GraphDataHandler {
     public void display() throws IOException {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         ObservableList<String> items = FXCollections.observableArrayList();
-        List<String> graphs = List.of("PIE CHART", "LINE GRAPH");
+        List<String> graphs = List.of("PIE CHART", "LINE GRAPH", "BAR CHART");
         items.addAll(graphs);
         type.setItems(items);
         type.getSelectionModel().select(items.indexOf(getGraphType()));
@@ -97,15 +94,21 @@ public class GraphDataHandler {
                 alert.setContentText("Please Select Different Values From The Dropdown");
                 alert.show();
             } else {
-                if (getGraphType().equals("PIE CHART")) {
-                    try {
-                        pieChart(new ArrayList<>(getEachColumn()), headers.indexOf(values.getValue()), headers.indexOf(num.getValue()));
-                    } catch (NumberFormatException | IOException e) {
-                        alert.setContentText("Please Select Numeric Values For Data");
-                        alert.show();
-                    }
-                } else if (getGraphType().equals("LINE GRAPH")) {
-                    lineGraph(headers.indexOf(values.getValue()), headers.indexOf(num.getValue()));
+                switch (getGraphType()) {
+                    case "PIE CHART":
+                        try {
+                            pieChart(new ArrayList<>(getEachColumn()), headers.indexOf(values.getValue()), headers.indexOf(num.getValue()));
+                        } catch (NumberFormatException | IOException e) {
+                            alert.setContentText("Please Select Numeric Values For Data");
+                            alert.show();
+                        }
+                        break;
+                    case "LINE GRAPH":
+                        lineGraph(headers.indexOf(values.getValue()), headers.indexOf(num.getValue()));
+                        break;
+                    case "BAR CHART":
+                        barChart(new ArrayList<>(getEachColumn()), headers.indexOf(values.getValue()), headers.indexOf(num.getValue()));
+                        break;
                 }
             }
         });
@@ -129,7 +132,7 @@ public class GraphDataHandler {
         setGraphType(type.getValue());
         title.setText("You Have Chosen " + getGraphType());
         setPreviewImage();
-        if (getGraphType().equals("LINE GRAPH")) {
+        if (getGraphType().equals("LINE GRAPH") || getGraphType().equals("BAR CHART")) {
             labelText.setText("X-Axis");
             valueText.setText("Y-Axis");
         } else if (getGraphType().equals("PIE CHART")) {
@@ -142,6 +145,7 @@ public class GraphDataHandler {
         switch (graphType) {
             case "PIE CHART" -> image.setImage(new Image(Objects.requireNonNull(getClass().getResource("images/pie.png")).toExternalForm()));
             case "LINE GRAPH" -> image.setImage(new Image(Objects.requireNonNull(getClass().getResource("images/line.png")).toExternalForm()));
+            case "BAR CHART" -> image.setImage(new Image(Objects.requireNonNull(getClass().getResource("images/bar.png")).toExternalForm()));
         }
     }
 
@@ -230,6 +234,45 @@ public class GraphDataHandler {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void barChart(List<List<String>> list, int col1, int col2) {
+        System.out.println(list);
+        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        final BarChart<String, Number> barChart =
+                new BarChart<>(xAxis, yAxis);
+        XYChart.Series<String, Number> series1 = new XYChart.Series<>();
+        List<String> keysAdded = new ArrayList<>();
+        for (List<String> strings : list) {
+            if (keysAdded.contains(strings.get(col1))) {
+                try {
+                    for (XYChart.Data<String, Number> stringNumberData : series1.getData()) {
+                        if (stringNumberData.getXValue().equals(strings.get(col1))) {
+                            double val = Double.parseDouble(String.valueOf(stringNumberData.getYValue()));
+                            val += Double.parseDouble(strings.get(col2));
+                            stringNumberData.setYValue(val);
+                            break;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+                series1.getData().add(new XYChart.Data<>(strings.get(col1), Double.parseDouble(strings.get(col2))));
+                keysAdded.add(strings.get(col1));
+            }
+        }
+        Stage stage = new Stage();
+        Scene scene = new Scene(barChart);
+        barChart.getData().add(series1);
+        stage.setScene(scene);
+        stage.show();
+        for (XYChart.Series<String, Number> series : barChart.getData()) {
+            for (XYChart.Data<String, Number> item : series.getData()) {
+                Tooltip.install(item.getNode(), new Tooltip(item.getXValue() + ":\n" + item.getYValue()));
+            }
         }
     }
 }

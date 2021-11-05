@@ -8,7 +8,7 @@ module com.sahilasopa.visualizer {
     requires org.apache.poi.ooxml;
     requires java.net.http;
     requires commons.csv;
-    requires org.apache.commons.io;
+    requires javafx.graphics;
 
     opens com.sahilasopa.visualizer to javafx.fxml;
     exports com.sahilasopa.visualizer;
