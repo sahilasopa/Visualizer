@@ -183,12 +183,13 @@ public class GraphDataHandler {
         try {
             Parent node = loader.load();
             PieChartHandler controller = loader.getController();
-            controller.setPieChartData(pieChartData);
-            Stage stage = new Stage();
-            Scene graph = new Scene(node);
-            stage.setScene(graph);
-            stage.show();
-
+            if (!pieChartData.isEmpty()) {
+                controller.setPieChartData(pieChartData);
+                Stage stage = new Stage();
+                Scene graph = new Scene(node);
+                stage.setScene(graph);
+                stage.show();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
