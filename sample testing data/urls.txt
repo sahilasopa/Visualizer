@@ -1,0 +1,3 @@
+If you wanna test json requests for my app use one of these urls:
+https://jsonplaceholder.typicode.com/albums	
+https://jsonplaceholder.typicode.com/todos
